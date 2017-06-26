@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <time.h>
 #include <uuid/uuid.h>
 #include <string.h>
 
@@ -38,6 +39,43 @@
 #include "cache/cache.h"
 
 #include "vcc_uuid_if.h"
+
+int rand_seeded = 0;
+
+/*
+struct urandom {
+    FILE *f;
+    int rand_seeded;
+}
+
+static void
+vmod_free(void *priv)
+{
+}
+
+
+VCL_VOID __match_proto__()
+vmod_register_obj_events(VRT_CTX, struct vmod_priv *priv)
+{
+        struct priv_vcl *priv_vcl;
+
+        CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+        CAST_OBJ_NOTNULL(priv_vcl, priv->priv, PRIV_VCL_MAGIC);
+        AZ(priv_vcl->obj_cb);
+        priv_vcl->obj_cb = ObjSubscribeEvents(obj_cb, priv_vcl,
+                OEV_INSERT|OEV_EXPIRE);
+        VSL(SLT_Debug, 0, "Subscribed to Object Events");
+}
+
+*/
+
+VCL_VOID
+vmod_seed_random(VRT_CTX)
+{
+    (void)ctx;
+    srandom((unsigned)time(NULL));
+    rand_seeded = 1;
+}
 
 VCL_STRING
 vmod_get_rand_uuid(VRT_CTX)

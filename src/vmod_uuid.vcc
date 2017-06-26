@@ -39,6 +39,9 @@ Cookie manipulation (end-to-end) example::
                so the varnish response, if cacheable just serve the cache and overwrite the
                set-cookie header in vcl deliver
             */
+            if (uuid.rand_seeded == 0) {
+                uuid.seed_random();
+            }
             set req.http.X-YOUR_COOKIE_NAME = uuid.get_rand_uuid();
         }
 
@@ -106,3 +109,14 @@ Example
                 sub vcl_deliver {
                         set resp.http.X-uuid-cookie-val = uuid.get_rand_uuid();
                 }
+
+$Function VOID seed_random()
+
+Description
+	Seed a random number generate with the current time
+Example
+	::
+
+		sub vcl_receive {
+			uuid.seed_random();
+		}
